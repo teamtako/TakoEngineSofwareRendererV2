@@ -9,8 +9,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import math.Matrix4;
 import math.Vector2;
+import math.Vector3;
 import math.Vector4;
+import runner.Camera;
 
 public class Renderer{
 	public static final int DRAW_TYPE_POINTS = 1;
@@ -279,7 +282,8 @@ public class Renderer{
 				endXs[i] = (int)bottom.x;
 			}	
 		}
-
+		System.out.println("check");
+		System.out.println("check");
 		int ctr = 0;
 		for(int y = (int)bottom.y; y < topLeft.y; y++){
 			for(int x = (int)startXs[ctr]; x < endXs[ctr]; x++){
@@ -669,6 +673,22 @@ public class Renderer{
 		}
 	}
 
-	
+	public void renderTriangle3D(Vector3 v1, Vector3 v2, Vector3 v3, Camera cam) {
+		Vector4 vv1 = new Vector4(v1.x,v1.y,v1.z,1);
+		Vector4 vv2 = new Vector4(v2.x,v2.y,v2.z,1);
+		Vector4 vv3 = new Vector4(v3.x,v3.y,v3.z,1);
+		 Vector4 pv1 = Matrix4.multiply(cam.projection, vv1);
+		 Vector4 pv2 = Matrix4.multiply(cam.projection, vv2);
+		 Vector4 pv3 = Matrix4.multiply(cam.projection, vv3);
+		 if(pv1.z!=0) {
+			Vector2 tv1 = new Vector2(pv1.x/pv1.z,pv1.y/pv1.z);
+		 }
+		 if(pv2.z!=0) {
+				Vector2 tv2 = new Vector2(pv2.x/pv2.z,pv2.y/pv2.z);
+			 }
+		 if(pv3.z!=0) {
+				Vector2 tv3 = new Vector2(pv3.x/pv3.z,pv3.y/pv3.z);
+			 }
+	}
 	
 }
