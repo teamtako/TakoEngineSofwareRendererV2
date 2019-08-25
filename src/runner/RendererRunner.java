@@ -1,7 +1,11 @@
 package runner;
 
+import java.util.ArrayList;
+
+import Utilities.ObjReader;
 import engine.Renderer;
 import math.Vector2;
+import math.Vector3;
 import math.Vector4;
 
 public class RendererRunner {
@@ -17,10 +21,10 @@ public class RendererRunner {
 		while (true) {
 			renderer.clearBackBuffer();
 			renderer.setPointSize(1);
+			ObjReader objReader= new ObjReader();
+			ArrayList<Vector3> vectors = objReader.getVerticesFromObjFile("/Users/league/Desktop/TakoEngineSofwareRendererV2/src/Utilities/monkey.obj");
+			renderer.renderVertecies(vectors);
 			
-
-			renderer.renderTriangle2D(new Vector2(-0.5f, -0.5f), new Vector2(0.0f, 0.5f), new Vector2(0.5f, -0.5f),
-					new Vector4(1f, 0, 0, 1f), new Vector4(0, 1f, 0, 1f), new Vector4(0, 0, 1f, 1f));
 			
 			renderer.swapBuffers();
 			
