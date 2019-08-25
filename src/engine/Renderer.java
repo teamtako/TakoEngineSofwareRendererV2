@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import math.Matrix4;
 import math.Vector2;
 import math.Vector4;
 
@@ -668,6 +669,49 @@ public class Renderer{
 			}
 		}
 	}
+		
+		public void renderTransformedTriangle2D(Matrix4 mat4, Vector2 vec1, Vector2 vec2, Vector2 vec3, Vector4 color1, Vector4 color2, Vector4 color3) 
+		{
+			Vector4 vec1Four = new Vector4(vec1.x,vec1.y,1,1f);
+			Vector4 vec2Four = new Vector4(vec2.x,vec2.y,1,1f);
+			Vector4 vec3Four = new Vector4(vec3.x,vec3.y,1,1f);
+			vec1Four = Matrix4.multiply(mat4, vec1Four);
+			vec2Four = Matrix4.multiply(mat4, vec2Four);
+			vec3Four = Matrix4.multiply(mat4, vec3Four);
+			Vector2 vec1Con;
+			Vector2 vec2Con;
+			Vector2 vec3Con;
+			if(vec1Four.z != 0) 
+			{
+				vec1Con = new Vector2(vec1Four.x / vec1Four.z,vec1Four.y / vec1Four.z);
+			}
+			else 
+			{
+				vec1Con = new Vector2(vec1Four.x,vec1Four.y);
+			}
+			if(vec2Four.z != 0) 
+			{
+				vec2Con = new Vector2(vec2Four.x / vec2Four.z,vec2Four.y / vec2Four.z);
+			}
+			else 
+			{
+				vec2Con = new Vector2(vec2Four.x,vec2Four.y);
+			}
+			if(vec3Four.z != 0) 
+			{
+				vec3Con = new Vector2(vec3Four.x / vec3Four.z,vec3Four.y / vec3Four.z);
+			}
+			else 
+			{
+				vec3Con = new Vector2(vec3Four.x,vec3Four.y);
+			}
+			
+		
+			renderTriangle2D(vec1Con,vec2Con,vec3Con,color1,color2,color3);
+		}
+		
+	
+	
 
 	
 	

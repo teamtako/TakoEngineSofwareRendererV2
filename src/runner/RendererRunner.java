@@ -1,6 +1,7 @@
 package runner;
 
 import engine.Renderer;
+import math.Matrix4;
 import math.Vector2;
 import math.Vector4;
 
@@ -19,9 +20,15 @@ public class RendererRunner {
 			renderer.setPointSize(1);
 			
 
-			renderer.renderTriangle2D(new Vector2(-0.5f, -0.5f), new Vector2(0.0f, 0.5f), new Vector2(0.5f, -0.5f),
-					new Vector4(1f, 0, 0, 1f), new Vector4(0, 1f, 0, 1f), new Vector4(0, 0, 1f, 1f));
+			/*renderer.renderTriangle2D(new Vector2(-0.5f, -0.5f), new Vector2(0.0f, 0.5f), new Vector2(0.5f, -0.5f),
+					new Vector4(1f, 0, 0, 1f), new Vector4(0, 1f, 0, 1f), new Vector4(0, 0, 1f, 1f));*/
 			
+			Matrix4 test = new Matrix4(1);
+			
+			test.m[2][3] = -.8f;
+			
+			renderer.renderTransformedTriangle2D(test, new Vector2(-0.5f, -0.5f), new Vector2(0.0f, 0.5f), new Vector2(0.5f, -0.5f),
+					new Vector4(1f, 0, 0, 1f), new Vector4(0, 1f, 0, 1f), new Vector4(0, 0, 1f, 1f));
 			renderer.swapBuffers();
 			
 			endTime = System.currentTimeMillis();
