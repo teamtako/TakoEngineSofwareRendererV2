@@ -2,11 +2,11 @@ package runner;
 
 import java.util.ArrayList;
 
-import Utilities.ObjReader;
 import engine.Renderer;
 import math.Vector2;
 import math.Vector3;
 import math.Vector4;
+import utilities.ObjReader;
 
 public class RendererRunner {
 	public static void main(String[] args) {
@@ -22,7 +22,7 @@ public class RendererRunner {
 			renderer.clearBackBuffer();
 			renderer.setPointSize(1);
 			ObjReader objReader= new ObjReader();
-			ArrayList<Vector3> vectors = objReader.getVerticesFromObjFile("/Users/league/Desktop/TakoEngineSofwareRendererV2/src/Utilities/monkey.obj");
+			ArrayList<Vector3> vectors = objReader.getVerticesFromObjFile("src/Utilities/monkey.obj");
 			renderer.renderVertecies(vectors);
 			
 			
