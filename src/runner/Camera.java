@@ -1,10 +1,13 @@
 package runner;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import math.Matrix4;
 import math.Quaternion;
 import math.Vector3;
 
-public class Camera {
+public class Camera implements KeyListener {
 
     public Matrix4 viewMatrix;
     public Matrix4 projectionMatrix;
@@ -32,7 +35,8 @@ public class Camera {
     public float rotateSpeed = 1;
 
     public Camera(){
-        viewMatrix = new Matrix4(1);
+        
+    	viewMatrix = new Matrix4(1);
         projectionMatrix = new Matrix4(1);
         position = new Vector3(0, 0, 0);
         orientation = new Quaternion();
@@ -96,5 +100,69 @@ public class Camera {
         forwardVec = new Vector3(-viewMatrix.m[0][2], -viewMatrix.m[1][2], -viewMatrix.m[2][2]);
         upVec = new Vector3(viewMatrix.m[0][1], viewMatrix.m[1][1], viewMatrix.m[2][1]);
         rightVec = new Vector3(viewMatrix.m[0][0], viewMatrix.m[1][0], viewMatrix.m[2][0]);
+        
+        
     }
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+		if(e.getKeyCode() == KeyEvent.VK_W) {
+			up = false;
+			System.out.println("works");
+		} else if(e.getKeyCode() == KeyEvent.VK_A) {
+			left = false;
+		} else if(e.getKeyCode() == KeyEvent.VK_S) {
+			down = false;
+		} else if(e.getKeyCode() == KeyEvent.VK_D) {
+			right = false;
+		} else if(e.getKeyCode() == KeyEvent.VK_UP) {
+			forward = false;
+		} else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+			back = false;
+		} else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			yawRight = false;
+		} else if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+			yawLeft = false;
+		}else if(e.getKeyCode() == KeyEvent.VK_Q) {
+			rollLeft = false;
+		} else if(e.getKeyCode() == KeyEvent.VK_Q) {
+			rollLeft = false;
+		} 
+	
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getKeyCode() == KeyEvent.VK_W) {
+			up = true;
+			System.out.println("works");
+		} else if(e.getKeyCode() == KeyEvent.VK_A) {
+			left = true;
+		} else if(e.getKeyCode() == KeyEvent.VK_S) {
+			down = true;
+		} else if(e.getKeyCode() == KeyEvent.VK_D) {
+			right = true;
+		} else if(e.getKeyCode() == KeyEvent.VK_UP) {
+			forward = true;
+		} else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+			back = true;
+		} else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			yawRight = true;
+		} else if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+			yawLeft = true;
+		} else if(e.getKeyCode() == KeyEvent.VK_Q) {
+			rollLeft = true;
+		} else if(e.getKeyCode() == KeyEvent.VK_E) {
+			rollLeft = true;
+		} 
+	}
 }

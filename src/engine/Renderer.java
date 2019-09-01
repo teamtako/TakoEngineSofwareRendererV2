@@ -57,7 +57,11 @@ public class Renderer{
 		totalImageSize = width * height * BYTES_PER_PIXEL;
 		backBuffer = new byte[totalImageSize];
 	}
-
+	
+	public void setKeyListener(KeyListener k) {
+		window.addKeyListener(k);
+	}
+	
 	public void swapBuffers() {
 		byte[] imgData = ((DataBufferByte) frameBuffer.getRaster().getDataBuffer()).getData();
 		System.arraycopy(backBuffer, 0, imgData, 0, backBuffer.length);
