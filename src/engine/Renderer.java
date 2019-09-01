@@ -57,6 +57,12 @@ public class Renderer{
 		totalImageSize = width * height * BYTES_PER_PIXEL;
 		backBuffer = new byte[totalImageSize];
 	}
+	
+	public void renderVertecies(ArrayList<Vector3> arr) {
+		for(int i = 0;i<arr.size();i+=3) {
+			renderTriangle2D(new Vector2(arr.get(i).x,arr.get(i).y),new Vector2(arr.get(i+1).x,arr.get(i+1).y),new Vector2(arr.get(i+2).x,arr.get(i+2).y),new Vector4(1f, 0, 0, 1f), new Vector4(0, 1f, 0, 1f), new Vector4(0, 0, 1f, 1f));
+		}
+	}
 
 	public void swapBuffers() {
 		byte[] imgData = ((DataBufferByte) frameBuffer.getRaster().getDataBuffer()).getData();

@@ -1,10 +1,13 @@
 package runner;
 
+import java.util.ArrayList;
+
 import engine.Renderer;
 import math.Quaternion;
 import math.Vector2;
 import math.Vector3;
 import math.Vector4;
+import utilities.ObjReader;
 
 public class RendererRunner {
 	public static void main(String[] args) {
@@ -18,6 +21,7 @@ public class RendererRunner {
 		long startTime = System.currentTimeMillis();
 		while (true) {
 			renderer.clearBackBuffer();
+
 			Vector4 c1 = new Vector4(0, 1, 0, 1);
 			Vector4 c2 = new Vector4(1, 0, 0, 1);
 			Vector4 c3 = new Vector4(0, 0, 1, 1);
