@@ -19,6 +19,10 @@ public class RendererRunner {
 		float deltaTime = 0;
 		long endTime = 0;
 		long startTime = System.currentTimeMillis();
+		Camera cam = new Camera();
+		cam.setPerspectiveProjection(90.0f, (800f / 500f), 0.001f, 1000.0f);
+		cam.position = new Vector3(0, 0, -30);
+		renderer.setKeyLister(cam);
 		while (true) {
 			renderer.clearBackBuffer();
 
@@ -30,9 +34,7 @@ public class RendererRunner {
 			Vector3 p23 = new Vector3(0.0f, 0.5f, 0f);
 			Vector3 p33 = new Vector3(0.5f, -0.5f, 0f);
 
-			Camera cam = new Camera();
-			cam.setPerspectiveProjection(70.0f, (800f / 500f), 0.001f, 1000.0f);
-			cam.position = new Vector3(0, 0, -30);
+			
 			cam.updateView(deltaTime);
 
 			renderer.renderTriangle3D(p13, p23, p33, c1, c2, c3, cam);
