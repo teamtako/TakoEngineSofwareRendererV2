@@ -9,9 +9,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import math.Matrix4;
 import math.Vector2;
 import math.Vector3;
 import math.Vector4;
+import runner.Camera;
 
 public class Renderer{
 	public static final int DRAW_TYPE_POINTS = 1;
@@ -286,7 +288,8 @@ public class Renderer{
 				endXs[i] = (int)bottom.x;
 			}	
 		}
-
+		System.out.println("check");
+		System.out.println("check");
 		int ctr = 0;
 		for(int y = (int)bottom.y; y < topLeft.y; y++){
 			for(int x = (int)startXs[ctr]; x < endXs[ctr]; x++){
@@ -676,6 +679,43 @@ public class Renderer{
 		}
 	}
 
+	public void renderTriangle3D(Vector3 p1, Vector3 p2, Vector3 p3, Camera cam){
+		Vector4 p1v4 = new Vector4(p1.x, p1.y, p1.z, 1.0f);
+		Vector4 p2v4 = new Vector4(p2.x, p2.y, p2.z, 1.0f);
+		Vector4 p3v4 = new Vector4(p3.x, p3.y, p3.z, 1.0f);
+
+		Matrix4 projView = Matrix4.multiply(cam.projectionMatrix, cam.viewMatrix); 
+
+		Vector4 p1a = Matrix4.multiply(projView, p1v4);
+		Vector4 p2a = Matrix4.multiply(projView, p2v4);
+		Vector4 p3a = Matrix4.multiply(projView, p3v4);
+
+		if(p1a.z > 0.0001f && p1a.z < 1000.0f &&
+		   p2a.z > 0.0001f && p2a.z < 1000.0f &&
+		   p3a.z > 0.0001f && p3a.z < 1000.0f){
+			renderTriangle2D(new Vector2(p1a.x / p1a.z, p1a.y / p1a.z), new Vector2(p2a.x / p2a.z, p2a.y / p2a.z), new Vector2(p3a.x / p3a.z, p3a.y / p3a.z));
+		}
+	}
 	
+	public void renderTriangle3D(Vector3 p1, Vector3 p2, Vector3 p3, Vector4 c1, Vector4 c2, Vector4 c3, Camera cam){
+		Vector4 p1v4 = new Vector4(p1.x, p1.y, p1.z, 1.0f);
+		Vector4 p2v4 = new Vector4(p2.x, p2.y, p2.z, 1.0f);
+		Vector4 p3v4 = new Vector4(p3.x, p3.y, p3.z, 1.0f);
+
+		Matrix4 projView = Matrix4.multiply(cam.projectionMatrix, cam.viewMatrix); 
+
+		Vector4 p1a = Matrix4.multiply(projView, p1v4);
+		Vector4 p2a = Matrix4.multiply(projView, p2v4);
+		Vector4 p3a = Matrix4.multiply(projView, p3v4);
+
+		if(p1a.z > 0.0001f && p1a.z < 1000.0f &&
+		   p2a.z > 0.0001f && p2a.z < 1000.0f &&
+		   p3a.z > 0.0001f && p3a.z < 1000.0f){
+			renderTriangle2D(new Vector2(p1a.x / p1a.z, p1a.y / p1a.z), 
+			                 new Vector2(p2a.x / p2a.z, p2a.y / p2a.z), 
+							 new Vector2(p3a.x / p3a.z, p3a.y / p3a.z), 
+							 c1, c2, c3);
+		}
+	}
 	
 }
