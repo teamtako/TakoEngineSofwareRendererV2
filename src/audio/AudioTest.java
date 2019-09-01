@@ -22,7 +22,7 @@ public class AudioTest {
 			e.printStackTrace();
 		}
 		buffer = loadSound("audio/bruh_audio5.wav");
-		source = new Source();
+		source = new Source(); 
 		source.play(buffer);
 	}
 	
