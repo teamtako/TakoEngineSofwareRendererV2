@@ -1,80 +1,100 @@
 package runner;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
 import math.Matrix4;
+import math.Quaternion;
 import math.Vector3;
 
-public class Camera implements KeyListener {
-//Matrix 4 view
-//Matrix 4 projection
-//Vector3 Position
-//Vector 3 up
-//Vector 3 right
-// Vector 3 forward
-//Quaternion orientation
+public class Camera {
 
-Matrix4 view;
+    public Matrix4 viewMatrix;
+    public Matrix4 projectionMatrix;
+    public Quaternion orientation;
+    public Vector3 position;
+    public Vector3 forwardVec;
+    public Vector3 upVec;
+    public Vector3 rightVec;
 
-Vector3 position;
-Vector3 up;
-Vector3 right;
-Vector3 forward;
-public Matrix4 projection;
+    public boolean forward;
+    public boolean back;
+    public boolean up;
+    public boolean down;
+    public boolean left;
+    public boolean right;
 
-public Camera(){
-	view = new Matrix4();
-	projection = new Matrix4();
-	position = new Vector3(0, 0, 0);
-	up = new Vector3(0,1,0);
-	right = new Vector3(1,0,0);
-	forward = new Vector3(0,0,1);
-	
-}
+    public boolean rollLeft;
+    public boolean rollRight;
+    public boolean pitchUp;
+    public boolean pitchDown;
+    public boolean yawLeft;
+    public boolean yawRight;
 
+    public float moveSpeed = 1;
+    public float rotateSpeed = 1;
 
-public void setPerspectiveProjection(float fov, float aspect, float near, float far) {
-	projection.m[0][0] = (float) (1f/(aspect*Math.tan(fov/2f)));
-	projection.m[1][1] = (float) (1f/(aspect*Math.tan(fov/2f)));
-	projection.m[2][2] = (float) (-near-far)/(near-far);
-	projection.m[3][2] = (float) (2f*far*near)/(near-far);
-	projection.m[2][3] = 1;
-}
+    public Camera(){
+        viewMatrix = new Matrix4(1);
+        projectionMatrix = new Matrix4(1);
+        position = new Vector3(0, 0, 0);
+        orientation = new Quaternion();
+        forwardVec = new Vector3(0, 0, 1);
+        upVec = new Vector3(0, 1, 0);
+        rightVec = new Vector3(1, 0, 0);
+    }
 
-public void setOrthographicProjection(float right, float left, float top, float bottom, float far, float near) {
-	projection.m[0][0] = (right-left)/2f;
-	projection.m[1][1] = (top-bottom)/2f;
-	projection.m[2][2] = (far-near)/-2f;
-	projection.m[3][0] = (left+right)/2f;
-	projection.m[3][1] = (top+bottom)/2f;
-	projection.m[3][2] = -(far+near)/2f;
-	projection.m[3][3] = 1;
-}
+    public void setPerspectiveProjection(float fov, float aspect, float near, float far){
+        projectionMatrix = new Matrix4();
+        float tanHFov = (float)(Math.tan(fov / 2.0f));
+        projectionMatrix.m[0][0] = 1.0f / (aspect * tanHFov);
+        projectionMatrix.m[1][1] = 1.0f / tanHFov;
+        projectionMatrix.m[2][2] = -(far + near) / (far - near);
+        projectionMatrix.m[2][3] = -1.0f;
+        projectionMatrix.m[3][2] = -(2.0f * far * near) / (far - near);
+    }
 
-void updateView() {
-	
-}
+    public void updateView(float delta){
+        if(forward){
+            position.add(Vector3.scale(Vector3.scale(forwardVec, moveSpeed), delta));
+        }
+        if(back){
+            position.sub(Vector3.scale(Vector3.scale(forwardVec, moveSpeed), delta));
+        }
+        if(left){
+            position.sub(Vector3.scale(Vector3.scale(rightVec, moveSpeed), delta));
+        }
+        if(right){
+            position.add(Vector3.scale(Vector3.scale(rightVec, moveSpeed), delta));
+        }
+        if(up){
+            position.add(Vector3.scale(Vector3.scale(upVec, moveSpeed), delta));
+        }
+        if(down){
+            position.sub(Vector3.scale(Vector3.scale(upVec, moveSpeed), delta));
+        }
+        if(yawRight){
+            orientation.rotate(upVec, rotateSpeed * delta);
+        }
+        if(yawLeft){
+            orientation.rotate(upVec, -rotateSpeed * delta);
+        }
+        if(pitchUp){
+            orientation.rotate(rightVec, -rotateSpeed * delta);
+        }
+        if(pitchDown){
+            orientation.rotate(rightVec, rotateSpeed * delta);
+        }
+        if(rollRight){
+            orientation.rotate(forwardVec, -rotateSpeed * delta);
+        }
+        if(rollLeft){
+            orientation.rotate(forwardVec, rotateSpeed * delta);
+        }
+        
+        viewMatrix = new Matrix4(1);
+        viewMatrix.translate(position);
+        viewMatrix = Matrix4.multiply(viewMatrix, orientation.toMatrix4());
 
-
-@Override
-public void keyTyped(KeyEvent e) {
-	// TODO Auto-generated method stub
-	
-}
-
-
-@Override
-public void keyPressed(KeyEvent e) {
-	// TODO Auto-generated method stub
-	
-}
-
-
-@Override
-public void keyReleased(KeyEvent e) {
-	// TODO Auto-generated method stub
-	
-}
-
+        forwardVec = new Vector3(-viewMatrix.m[0][2], -viewMatrix.m[1][2], -viewMatrix.m[2][2]);
+        upVec = new Vector3(viewMatrix.m[0][1], viewMatrix.m[1][1], viewMatrix.m[2][1]);
+        rightVec = new Vector3(viewMatrix.m[0][0], viewMatrix.m[1][0], viewMatrix.m[2][0]);
+    }
 }
