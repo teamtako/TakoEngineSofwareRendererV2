@@ -19,6 +19,20 @@ public class RendererRunner {
 		float deltaTime = 0;
 		long endTime = 0;
 		long startTime = System.currentTimeMillis();
+		ObjReader objReader = new ObjReader();
+		ArrayList<Vector3> vectors = objReader.getVerticesFromObjFile("src/utilities/monkey.obj");
+		for(int i =0;i<vectors.size();i+=3) {
+			if(vectors.get(i).z<0) {
+				System.out.println(vectors.get(i).x+" "+vectors.get(i).y+" "+vectors.get(i).z);
+			}
+			if(vectors.get(i+1).z<0) {
+				System.out.println(vectors.get(i+1).x+" "+vectors.get(i+1).y+" "+vectors.get(i+1).z);
+			}
+			if(vectors.get(i+2).z<0) {
+				System.out.println(vectors.get(i+2).x+" "+vectors.get(i+2).y+" "+vectors.get(i+2).z);
+			}
+			
+		}
 		while (true) {
 			renderer.clearBackBuffer();
 
@@ -32,10 +46,11 @@ public class RendererRunner {
 
 			Camera cam = new Camera();
 			cam.setPerspectiveProjection(70.0f, (800f / 500f), 0.001f, 1000.0f);
-			cam.position = new Vector3(0, 0, -30);
+			cam.position = new Vector3(0, 0, -50);
 			cam.updateView(deltaTime);
-
-			renderer.renderTriangle3D(p13, p23, p33, c1, c2, c3, cam);
+			
+			
+			renderer.renderVertecies(vectors, cam);
 			renderer.setPointSize(1);
 			renderer.swapBuffers();
 			

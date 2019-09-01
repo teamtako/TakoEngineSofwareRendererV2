@@ -58,9 +58,9 @@ public class Renderer{
 		backBuffer = new byte[totalImageSize];
 	}
 	
-	public void renderVertecies(ArrayList<Vector3> arr) {
+	public void renderVertecies(ArrayList<Vector3> arr,Camera camera) {
 		for(int i = 0;i<arr.size();i+=3) {
-			renderTriangle2D(new Vector2(arr.get(i).x,arr.get(i).y),new Vector2(arr.get(i+1).x,arr.get(i+1).y),new Vector2(arr.get(i+2).x,arr.get(i+2).y),new Vector4(1f, 0, 0, 1f), new Vector4(0, 1f, 0, 1f), new Vector4(0, 0, 1f, 1f));
+			renderTriangle3D(arr.get(i),arr.get(i+1),arr.get(i+2),new Vector4(1f, 0, 0, 1f), new Vector4(0, 1f, 0, 1f), new Vector4(0, 0, 1f, 1f),camera);
 		}
 	}
 
@@ -707,15 +707,23 @@ public class Renderer{
 		Vector4 p1a = Matrix4.multiply(projView, p1v4);
 		Vector4 p2a = Matrix4.multiply(projView, p2v4);
 		Vector4 p3a = Matrix4.multiply(projView, p3v4);
-
-		if(p1a.z > 0.0001f && p1a.z < 1000.0f &&
-		   p2a.z > 0.0001f && p2a.z < 1000.0f &&
-		   p3a.z > 0.0001f && p3a.z < 1000.0f){
-			renderTriangle2D(new Vector2(p1a.x / p1a.z, p1a.y / p1a.z), 
-			                 new Vector2(p2a.x / p2a.z, p2a.y / p2a.z), 
-							 new Vector2(p3a.x / p3a.z, p3a.y / p3a.z), 
-							 c1, c2, c3);
-		}
+		renderTriangle2D(new Vector2(p1a.x / p1a.z, p1a.y / p1a.z), 
+                new Vector2(p2a.x / p2a.z, p2a.y / p2a.z), 
+				 new Vector2(p3a.x / p3a.z, p3a.y / p3a.z), 
+				 c1, c2, c3);
+//		if(p1a.z < 0.0001f || p1a.z > 0.0001f ||
+//		   p2a.z < 0.0001f || p2a.z > 0.0001f ||
+//		   p3a.z < 0.0001f || p3a.z > 0.0001f){
+//			renderTriangle2D(new Vector2(p1a.x / p1a.z, p1a.y / p1a.z), 
+//			                 new Vector2(p2a.x / p2a.z, p2a.y / p2a.z), 
+//							 new Vector2(p3a.x / p3a.z, p3a.y / p3a.z), 
+//							 c1, c2, c3);
+//		} else {
+//			renderTriangle2D(new Vector2(p1a.x / p1a.z, p1a.y / p1a.z), 
+//	                 new Vector2(p2a.x , p2a.y), 
+//					 new Vector2(p3a.x, p3a.y), 
+//					 c1, c2, c3);
+//		}
 	}
 	
 }
