@@ -28,7 +28,7 @@ public class AudioTest {
 		source.setLooping(true);
 		source.play(buffer);
 		
-		float xPos = 2;
+		float xPos = 10;
 		source.setPosition(xPos, 0, 0);
 		while(xPos>-10) {
 			xPos-=0.03f;
