@@ -13,7 +13,9 @@ import org.lwjgl.util.WaveData;
 public class AudioTest {
 
 	static int buffer;
+	static int buffer1;
 	static Source source;
+	static Source source1;
 	
 	public static void main(String[] args) throws InterruptedException{
 		try {
@@ -24,19 +26,27 @@ public class AudioTest {
 			e.printStackTrace();
 		}
 		buffer = loadSound("audio/bruh_audio6.wav");
+		buffer1 = loadSound("audio/ree.wav");
 		source = new Source(); 
+		source1 = new Source(); 
 		source.setLooping(true);
+		source1.setLooping(true);
 		source.play(buffer);
+		source1.play(buffer1);
 		
 		float xPos = 10;
 		source.setPosition(xPos, 0, 0);
+		source1.setPosition(xPos, 0, 0);
 		while(xPos>-10) {
 			xPos-=0.03f;
 			source.setPosition(xPos, 0, 0);
+			source1.setPosition(xPos, 0, 0);
 			Thread.sleep(10);
 		}
 		source.delete();
+		source1.delete();
 		AL10.alDeleteBuffers(buffer);
+		AL10.alDeleteBuffers(buffer1);
 		AL.destroy();
 	}
 	
